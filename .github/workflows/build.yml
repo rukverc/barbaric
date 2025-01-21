@@ -1,0 +1,39 @@
+name: Build Standalone Server
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.8"
+
+    - name: Install dependencies
+      run: pip install pyinstaller
+
+    - name: Build binary
+      run: pyinstaller --onefile server.py
+
+    - name: Archive build
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: server-${{ matrix.os }}
+        path: dist/
