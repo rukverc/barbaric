@@ -1,0 +1,6 @@
+{
+    "title": "Dynamic Web Server",
+    "description": "A dynamic server rendering templates based on JSON content.",
+    "show_list": true,
+    "items": ["Item 1", "Item 2", "Item 3"]
+}
