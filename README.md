@@ -20,11 +20,15 @@ project/
 ├── server.py            # Python server script
 ├── data.json            # Dynamic content configuration
 ├── routes.json          # Route-to-template mapping
+├── public/           # Directory for HTML templates
+│   ├── base.css
+│   ├── base.js
+│   └── cica.jpeg
 ├── templates/           # Directory for HTML templates
 │   ├── index.html
 │   ├── about.html
 │   └── contact.html
-├── .gitlab-ci.yml       # GitLab CI/CD configuration
+
 ```
 
 ---

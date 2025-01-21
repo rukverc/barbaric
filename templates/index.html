@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="base.css" media="all"/>
 </head>
 <body>
     <h1>Index</h1>
@@ -10,6 +11,8 @@
     <h1>{{ title }}</h1>
     <p>{{ description }}</p>
 
+    <img src="cica.jpeg" alt="" width="200">
+
     {% if show_list %}
     <ul>
         {% for item in items %}
@@ -17,5 +20,9 @@
         {% endfor %}
     </ul>
     {% endif %}
+
 </body>
+<script type="text/javascript" src="jquery.js" id="nep-quiz-js"></script>
+<script type="text/javascript" src="base.js" id="nep-quiz-js"></script>
+
 </html>

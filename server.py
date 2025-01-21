@@ -108,22 +108,37 @@ class DynamicHTMLHandler(SimpleHTTPRequestHandler):
 
         return re.sub(loop_pattern, evaluate_loop, template_content, flags=re.S)
 
+def load_config(config_file):
+    try:
+        with open(config_file, "r", encoding="utf-8") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        print(f"Config file '{config_file}' not found. Using default settings.")
+        return {}
+    except json.JSONDecodeError:
+        print(f"Error decoding JSON in '{config_file}'. Using default settings.")
+        return {}
+
 def main():
     # Argumentumok feldolgozása
     parser = argparse.ArgumentParser(description="Egyszerű dinamikus webszerver")
-    parser.add_argument("--port", type=int, default=8000, help="A szerver portja (alapértelmezett: 8000)")
-    parser.add_argument("--host", type=str, default="127.0.0.1", help="A szerver IP címe (alapértelmezett: 127.0.0.1)")
-    parser.add_argument("--directory", type=str, default=".", help="A gyökérmappa, ahonnan a fájlokat szolgáltatjuk (alapértelmezett: aktuális mappa)")
-    parser.add_argument("--debug", action="store_true", help="Debug mód bekapcsolása")
+    parser.add_argument("--config", type=str, default="config.json", help="A konfigurációs fájl elérési útja (alapértelmezett: config.json)")
     args = parser.parse_args()
 
-    # Konfiguráció beállítása
-    server_config = {
-        "port": args.port,
-        "host": args.host,
-        "directory": os.path.abspath(args.directory),
-        "debug": args.debug,
+    # Konfiguráció betöltése fájlból
+    file_config = load_config(args.config)
+
+    # Alapértelmezett konfiguráció
+    default_config = {
+        "port": 8000,
+        "host": "127.0.0.1",
+        "directory": ".",
+        "debug": False,
     }
+
+    # Konfiguráció összevonása
+    server_config = {**default_config, **file_config}
+    server_config["directory"] = os.path.abspath(server_config["directory"])
 
     # Debug logolás
     if server_config["debug"]:
